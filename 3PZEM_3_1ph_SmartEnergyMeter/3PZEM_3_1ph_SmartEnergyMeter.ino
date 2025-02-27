@@ -1,6 +1,4 @@
-//Final code with Thingsboard & Thingworx 
-
-final code without error
+//final code without error - Thingsbord & Thingworx 3 Ph - Mani Shankar july 12 2024 
  
  
 #include <PZEM004Tv30.h>
@@ -243,3 +241,4 @@ void Put(String ThingName, String ThingProperty, float Value) {
     }
     thingworxClient.stop();
 }
+ 
