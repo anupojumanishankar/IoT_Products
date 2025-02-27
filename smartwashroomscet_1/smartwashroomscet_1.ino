@@ -41,8 +41,8 @@ long t1,t2;
 WiFiClient client;
 long old_time1;
 long old_time2;
-const char* ssid = "Abc";
-const char* password = "12345678";  
+const char* ssid = "Mani";
+const char* password = "Mani6652";  
 
 /*const char* ssid = "MANI DCS";
 const char* password = "Mani1337"; */
