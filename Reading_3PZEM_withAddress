@@ -1,8 +1,6 @@
 //3 PZEM's at a time for readings 3 iph voltages at a time 
 
 #include <PZEM004Tv30.h>
- 
- 
 #if !defined(PZEM_RX_PIN) && !defined(PZEM_TX_PIN)
 #define PZEM_RX_PIN 18
 #define PZEM_TX_PIN 5
