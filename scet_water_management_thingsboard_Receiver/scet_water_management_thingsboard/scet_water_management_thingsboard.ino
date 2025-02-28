@@ -40,7 +40,7 @@ const char* access_token = "KQ3Pv8elbKKsdvSjCRxU";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-bool flag = 1;
+bool flag = 0;
 int Tank_Level_cms = 0;
 
 // OLED display setup
@@ -117,9 +117,9 @@ void sendToThingsBoard() {
   char payload[256];
   int currentRSSI =  LoRa.packetRssi();
   // Calculate and send water percentage
-  int Tank_Level_Percentage = map(Tank_Level_cms, 180, 25, 0, 100);
+  int Tank_Level_Percentage = map(Tank_Level_cms, 200, 20, 0, 100);
   int lora_rssi = map(currentRSSI, -100, 0, 0, 100);
-  snprintf(payload, sizeof(payload), "{\"Tank_Level_Percentage\":%d, \"Pump_Status\":%s, \"Tank_Level_cms\":%d,\"LoRa Strength\":%d}", 
+  snprintf(payload, sizeof(payload), "{\"Tank_Level_Percentage\":%d, \"Pump_Status\":%s, \"Tank_Level_cms\":%d, \"LoRa Strength\":%d}", 
            Tank_Level_Percentage, digitalRead(pump) ? "true" : "false", Tank_Level_cms,lora_rssi);
   client.publish("v1/devices/me/telemetry", payload);
 }
@@ -167,11 +167,22 @@ void loop() {
       Serial.print(Tank_Level_cms);
       Serial.println(" cm");
 
-      if (Tank_Level_cms >= 190 && flag == 1) { 
+      if (Tank_Level_cms >= 160 && Tank_Level_cms <= 300 && flag == 1) { 
         digitalWrite(pump, HIGH);
         Serial.println("PUMP ON");
         flag = 0;
-      } else if (Tank_Level_cms <= 25 && flag == 0) { 
+
+      } else if (Tank_Level_cms <= 30 && Tank_Level_cms >= 0  flag == 0) { 
+        digitalWrite(pump, LOW);
+        Serial.println("PUMP OFF");
+        flag = 1;
+      }
+      else if (Tank_Level_cms >= 30 && Tank_Level_cms <= 159  flag == 0) { 
+        digitalWrite(pump, LOW);
+        Serial.println("PUMP OFF");
+        flag = 1;
+      }else
+      {
         digitalWrite(pump, LOW);
         Serial.println("PUMP OFF");
         flag = 1;
